@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".ui.fragment.PrepareToQuestionFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/White"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="12dp">
+
+                <TextView
+                    android:id="@+id/tv_prepare_question_lesson_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textColor="@color/Black"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_prepare_question_topic_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textColor="@color/Gray600"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_prepare_question_lesson_name" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_prepare_question_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_prepare_question_topic_name">
+
+                    <ImageView
+                        android:id="@+id/iv_prepare_question_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_icon_empty_circle"
+                        android:padding="4dp"
+                        android:src="@drawable/icon_level_36"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_level_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Question level"
+                        android:textColor="@color/Blue900"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_prepare_question_level_value"
+                        app:layout_constraintStart_toEndOf="@id/iv_prepare_question_level"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_level_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:textColor="@color/Gray600"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_prepare_question_level"
+                        app:layout_constraintTop_toBottomOf="@id/tv_prepare_question_level_label" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_prepare_question_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_prepare_question_level">
+
+                    <ImageView
+                        android:id="@+id/iv_prepare_question_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_icon_empty_circle"
+                        android:padding="4dp"
+                        android:src="@drawable/icon_timer_36"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_time_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Estimated solving time"
+                        android:textColor="@color/Blue900"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_prepare_question_time_value"
+                        app:layout_constraintStart_toEndOf="@id/iv_prepare_question_time"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_time_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:textColor="@color/Gray600"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_prepare_question_time"
+                        app:layout_constraintTop_toBottomOf="@id/tv_prepare_question_time_label" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_prepare_question_average"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_prepare_question_time">
+
+                    <ImageView
+                        android:id="@+id/iv_prepare_question_average"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_icon_empty_circle"
+                        android:padding="4dp"
+                        android:src="@drawable/icon_status_36"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_average_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Average of last 6 points"
+                        android:textColor="@color/Blue900"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@id/tv_prepare_question_average_value"
+                        app:layout_constraintStart_toEndOf="@id/iv_prepare_question_average"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_average_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:textColor="@color/Gray600"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_prepare_question_average"
+                        app:layout_constraintTop_toBottomOf="@id/tv_prepare_question_average_label" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view_seperator"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/Gray400"
+                    app:layout_constraintTop_toBottomOf="@id/cl_prepare_question_average" />
+
+                <LinearLayout
+                    android:id="@+id/ll_prepare_question_before_you_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_seperator">
+
+                    <TextView
+                        android:id="@+id/tv_prepare_question_before_you_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Before you start"
+                        android:textColor="@color/Black"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/background_text_view_gray_colored"
+                        android:drawableStart="@drawable/icon_dot_circle_24"
+                        android:drawablePadding="6dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:paddingVertical="2dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="8dp"
+                        android:text="You must complete this question." />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_text_view_gray_colored"
+                        android:drawableStart="@drawable/icon_dot_circle_24"
+                        android:drawablePadding="6dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:paddingVertical="2dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="8dp"
+                        android:text="If you can solve the question, the AI ​​tool will evaluate your result. If you cannot solve it, you will get 0 points directly." />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/background_text_view_gray_colored"
+                        android:drawableStart="@drawable/icon_dot_circle_24"
+                        android:drawablePadding="6dp"
+                        android:fontFamily="@font/poppins_light"
+                        android:paddingVertical="2dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="8dp"
+                        android:text="This question may be a question you have solved before. In this case, do not forget to change the question for a correct evaluation!" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mb_prepare_question_start_to_solve"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_button_colored"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Start To Solve"
+                android:textColor="@color/White"
+                android:textSize="18sp"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

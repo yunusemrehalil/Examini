@@ -1,0 +1,49 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Examini" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/Gray500</item>
+        <item name="android:fontFamily">@font/poppins_light</item>
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.Examini" parent="Base.Theme.Examini" />
+
+    <style name="ChooseTopicBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/MyBottomSheetStyle</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="MyBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#00000000</item>
+    </style>
+
+    <style name="LoadingDialogStyle" parent="Base.Theme.Examini">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:color">@color/White</item>
+        <item name="colorPrimary">@color/White</item>
+        <item name="colorPrimaryDark">@color/Gray900</item>
+        <item name="colorAccent">@color/White</item>
+    </style>
+
+    <style name="GridCellStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:background">@drawable/background_grid_cell</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/Black</item>
+    </style>
+
+</resources>

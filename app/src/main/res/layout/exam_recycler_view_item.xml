@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:background="@android:color/transparent">
+
+    <com.nomaddeveloper.examini.util.shape.RecyclerItemShape
+        android:id="@+id/recycler_item_shape"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_exam_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_exam_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/White"
+                android:textSize="36sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignBottom="@id/tv_exam_name"
+                android:background="@color/White" />
+        </RelativeLayout>
+    </com.nomaddeveloper.examini.util.shape.RecyclerItemShape>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

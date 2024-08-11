@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".ui.fragment.SolveQuestionFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/LightBlue700"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mb_solve_question_change_question"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/background_change_question_button_colored"
+                app:backgroundTint="@null"
+                app:icon="@drawable/icon_change_question_24"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="28dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="12dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_solve_question_lesson_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textColor="@color/White"
+                    android:textSize="28sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp">
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/lpi_solve_question_countdown_timer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/background_count_down_timer_progress"
+                        android:max="100"
+                        android:min="0"
+                        android:padding="4dp"
+                        app:indicatorColor="@color/LightBlue900"
+                        app:trackColor="@color/TealA200"
+                        app:trackCornerRadius="24dp"
+                        app:trackThickness="40dp" />
+
+                    <TextView
+                        android:id="@+id/tv_solve_question_seconds_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center_vertical"
+                        android:padding="2dp"
+                        android:textColor="@color/Black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_solve_question_timer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/icon_timer_24" />
+                </FrameLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:cardBackgroundColor="@color/White"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="4dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/iv_solve_question_random_test_question"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:layout_margin="4dp"
+                            android:padding="6dp"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <RadioGroup
+                            android:id="@+id/rg_solve_question_options"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:layout_marginBottom="2dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="20dp"
+                            app:layout_constraintTop_toBottomOf="@id/iv_solve_question_random_test_question">
+
+                            <RadioButton
+                                android:id="@+id/rb_A"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/background_button_outlined"
+                                android:gravity="center_vertical"
+                                android:text="A" />
+
+                            <RadioButton
+                                android:id="@+id/rb_B"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/background_button_outlined"
+                                android:gravity="center_vertical"
+                                android:text="B" />
+
+                            <RadioButton
+                                android:id="@+id/rb_C"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/background_button_outlined"
+                                android:gravity="center_vertical"
+                                android:text="C" />
+
+                            <RadioButton
+                                android:id="@+id/rb_D"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/background_button_outlined"
+                                android:gravity="center_vertical"
+                                android:text="D" />
+
+                            <RadioButton
+                                android:id="@+id/rb_E"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginBottom="6dp"
+                                android:background="@drawable/background_button_outlined"
+                                android:gravity="center_vertical"
+                                android:text="E" />
+                        </RadioGroup>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mb_solve_question_send_my_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_button_colored"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Send My Answer"
+                android:textColor="@color/White"
+                android:textSize="18sp"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
