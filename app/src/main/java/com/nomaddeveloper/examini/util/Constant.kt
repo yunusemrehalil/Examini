@@ -5,7 +5,7 @@ import com.nomaddeveloper.examini.BuildConfig
 import com.nomaddeveloper.examini.util.Enums.Lesson
 
 object Constant {
-    const val RC_GOOGLE_SIGN_IN = 100
+    const val GEMINI_MODEL = "gemini-1.5-flash"
     const val KEY_USERNAME = "KEY_USERNAME"
     const val KEY_LESSON = "KEY_LESSON"
     const val KEY_EXAM = "KEY_EXAM"
@@ -18,6 +18,7 @@ object Constant {
     const val KEY_QUESTION_TOPIC = "KEY_QUESTION_TOPIC"
     const val KEY_QUESTION_SOLVING_TIME = "KEY_QUESTION_SOLVING_TIME"
     const val KEY_QUESTION_CORRECT_ANSWER = "KEY_QUESTION_CORRECT_ANSWER"
+    const val KEY_QUESTION_LIST = "KEY_QUESTION_LIST"
     const val DEFAULT_LESSON: String = "unknownLesson"
     const val DEFAULT_TOPIC: String = "unknownTopic"
     const val DEFAULT_IMAGE: String = "unknownImage"
@@ -26,6 +27,13 @@ object Constant {
     const val DEFAULT_SOLVING_TIME: String = "unknownSolvingTime"
     const val DEFAULT_RESPONSE: String = "defaultResponse"
     const val DEFAULT_POINT: Float = -1f
+    const val DECIMAL_2_CHAR = "%.2f"
+    const val OPTION_A = "A"
+    const val OPTION_B = "B"
+    const val OPTION_C = "C"
+    const val OPTION_D = "D"
+    const val OPTION_E = "E"
+    const val EMPTY_STRING = ""
     const val REGEX_PATTERN_WITH_POINT = """(\d+ puan|Puan: \d+|Değerlendirme: \d+/)"""
     const val REGEX_PATTERN_FOR_EXTRACT_POINT = """(\d+)(?=[^\d]*\d*/?\d*)"""
     const val REGEX_PATTERN_FOR_TUNED_MODEL = """\*+\s*(\d+)\s*puan\s+alabilirsiniz\s*\*+"""

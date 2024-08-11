@@ -7,11 +7,11 @@ import java.util.UUID
 open class GeminiPoint : RealmObject {
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
-    var googleId: String = ""
+    private var googleId: String = ""
     var lesson: String = ""
     var topic: String = ""
     var value: Float = 0f
-    var timestamp: Long = 0
+    private var timestamp: Long = 0
 
     constructor()
 

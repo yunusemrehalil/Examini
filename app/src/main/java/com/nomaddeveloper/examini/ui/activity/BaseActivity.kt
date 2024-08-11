@@ -14,6 +14,7 @@ import com.nomaddeveloper.examini.model.profile.GoogleProfile
 import com.nomaddeveloper.examini.model.realm.GeminiPoint
 import com.nomaddeveloper.examini.network.Connection
 import com.nomaddeveloper.examini.ui.fragment.LoadingDialogFragment
+import com.nomaddeveloper.examini.util.Constant.GEMINI_MODEL
 import com.nomaddeveloper.examini.util.PreferencesUtil
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
@@ -45,7 +46,7 @@ open class BaseActivity : AppCompatActivity(), RealmProvider, GeminiProvider, Co
 
     private fun initializeGemini() {
         geminiGenerativeModel = GenerativeModel(
-            modelName = "gemini-1.5-flash",
+            modelName = GEMINI_MODEL,
             apiKey = BuildConfig.GEMINI_API_KEY
         )
     }

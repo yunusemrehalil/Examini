@@ -11,19 +11,19 @@ import retrofit2.http.Query
 interface ExaminiAPI {
 
     @GET("students")
-    fun getStudents(): Call<List<Student>>
+    fun getStudents(): Call<ArrayList<Student>>
 
     @GET("{lesson}/questions")
-    fun getQuestionsByLesson(@Path("lesson") lesson: String): Call<List<Question>>
+    fun getQuestionsByLesson(@Path("lesson") lesson: String): Call<ArrayList<Question>>
 
     @GET("{lesson}/questions/topic")
     fun getQuestionsByLessonAndTopic(
         @Path("lesson") lesson: String, @Query("topic") topic: String
-    ): Call<List<Question>>
+    ): Call<ArrayList<Question>>
 
     @GET("topics")
     fun getTopics(
         @Query("lesson") lesson: String?,
         @Query("exam") exam: String?
-    ): Call<List<LessonTopic>>
+    ): Call<ArrayList<LessonTopic>>
 }

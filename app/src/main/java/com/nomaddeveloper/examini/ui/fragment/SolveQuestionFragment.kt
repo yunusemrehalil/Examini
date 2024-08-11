@@ -1,6 +1,7 @@
 package com.nomaddeveloper.examini.ui.fragment
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.databinding.FragmentSolveQuestionBinding
 import com.nomaddeveloper.examini.listener.GlideErrorListener
 import com.nomaddeveloper.examini.model.question.Question
+import com.nomaddeveloper.examini.util.ChangeQuestionAlertDialog
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_CORRECT_ANSWER
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_IMAGE
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_LESSON
@@ -30,8 +32,14 @@ import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_CORRECT_ANSWER
 import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_IMAGE
 import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_LESSON
 import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_LEVEL
+import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_LIST
 import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_SOLVING_TIME
 import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_TOPIC
+import com.nomaddeveloper.examini.util.Constant.OPTION_A
+import com.nomaddeveloper.examini.util.Constant.OPTION_B
+import com.nomaddeveloper.examini.util.Constant.OPTION_C
+import com.nomaddeveloper.examini.util.Constant.OPTION_D
+import com.nomaddeveloper.examini.util.Constant.OPTION_E
 import com.nomaddeveloper.examini.util.Constant.REGEX_PATTERN_FOR_REMOVE_ASTERISKS
 import com.nomaddeveloper.examini.util.CountDownTimerUtil
 import com.nomaddeveloper.examini.util.StringUtil.Companion.levelToString
@@ -43,7 +51,7 @@ import kotlin.math.roundToInt
 
 class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
     private lateinit var binding: FragmentSolveQuestionBinding
-    private lateinit var sendTimeToGeminiContext: Context
+    private lateinit var solveQuestionContext: Context
     private lateinit var countDownTimerUtil: CountDownTimerUtil
     private lateinit var sendMyAnswerButton: MaterialButton
     private lateinit var changeQuestionButton: MaterialButton
@@ -53,6 +61,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
     private lateinit var optionsRG: RadioGroup
     private lateinit var randomTestQuestionIV: ImageView
     private lateinit var geminiContent: Content
+    private lateinit var questionList: List<Question>
     private lateinit var questionTopic: String
     private lateinit var questionLesson: String
     private lateinit var questionLevel: String
@@ -89,7 +98,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
                         .remove(this@SolveQuestionFragment)
                         .commit()
                     requireActivity().finish()
-                    //TODO() kontrol et, burada bir sıkıntı olabilir!
+                    //TODO() check this
                 }
             })
     }
@@ -105,6 +114,12 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
                 it.getString(KEY_QUESTION_CORRECT_ANSWER, DEFAULT_CORRECT_ANSWER)
             questionEstimatedSolvingTime =
                 it.getString(KEY_QUESTION_SOLVING_TIME, DEFAULT_SOLVING_TIME)
+            questionList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelableArrayList(KEY_QUESTION_LIST, Question::class.java)
+                    ?: arrayListOf()
+            } else {
+                it.getParcelableArrayList(KEY_QUESTION_LIST) ?: arrayListOf()
+            }
         }
         clockTime = (questionEstimatedSolvingTime.toInt() * 1000).toLong()
         progressTime = (clockTime / 1000).toFloat()
@@ -121,13 +136,13 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setupUseful() {
-        sendTimeToGeminiContext = requireContext()
+        solveQuestionContext = requireContext()
         countDownTimerUtil = CountDownTimerUtil(clockTime, 1000)
         glideErrorListener = GlideErrorListener(
-            sendTimeToGeminiContext,
+            solveQuestionContext,
             parentFragmentManager,
             SolveQuestionFragment::class.java.name,
-            "Soruyu yüklerken hata oluştu.",
+            getString(R.string.error_loading_question),
             countDownTimerUtil
         )
     }
@@ -162,11 +177,11 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
     private fun setupOptionsListener() {
         optionsRG.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.rb_A -> selectedAnswer = "A"
-                R.id.rb_B -> selectedAnswer = "B"
-                R.id.rb_C -> selectedAnswer = "C"
-                R.id.rb_D -> selectedAnswer = "D"
-                R.id.rb_E -> selectedAnswer = "E"
+                R.id.rb_A -> selectedAnswer = OPTION_A
+                R.id.rb_B -> selectedAnswer = OPTION_B
+                R.id.rb_C -> selectedAnswer = OPTION_C
+                R.id.rb_D -> selectedAnswer = OPTION_D
+                R.id.rb_E -> selectedAnswer = OPTION_E
             }
         }
     }
@@ -179,7 +194,8 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
             val second = (millisUntilFinished / 1000.0f).roundToInt()
             if (second != secondsLeft) {
                 secondsLeft = second
-                val secondsLeftText = "$secondsLeft seconds"
+                val secondsLeftText =
+                    resources.getQuantityString(R.plurals.seconds_left, secondsLeft, secondsLeft)
                 secondsLeftTV.text = secondsLeftText
                 countDownTimerLPI.progress = secondsLeft
             }
@@ -209,7 +225,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
             (questionEstimatedSolvingTime.toInt() - secondsLeft)
         val myAnswer = selectedAnswer
         val prompt =
-            "Bu soru için benim cevabım ${myAnswer} ve doğru cevap ${questionCorrectAnswer}. Ben, cevabımı ${time} saniyede buldum. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme."
+            "Bu soru için benim cevabım $myAnswer ve doğru cevap ${questionCorrectAnswer}. Ben, cevabımı $time saniyede buldum. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme."
         /*if (time < 120) {
             "Bu soru için benim cevabım ${myAnswer} ve doğru cevap ${correctAnswer}. Ben, cevabımı ${time} saniyede buldum. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme."
         } else {
@@ -257,7 +273,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
             text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (90 saniye) daha hızlı (50 saniye) buldunuz. Hem doğru cevabı bulmanız hem de hızınız mükemmel. Bu nedenle, 0 ile 5 puan arasında 5 puan alabilirsiniz.")
             text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı C şıkkı. Ben, cevabımı 130 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 140 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
             text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (140 saniye) biraz daha hızlı (130 saniye) buldunuz. Hem doğru cevabı bulmanız hem de hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 4 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım ${myAnswer} şıkkı ve doğru cevap ${questionCorrectAnswer} şıkkı. Ben, cevabımı ${time} saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi ${questionEstimatedSolvingTime}. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
+            text("input: Bu soru için benim cevabım $myAnswer şıkkı ve doğru cevap $questionCorrectAnswer şıkkı. Ben, cevabımı $time saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi ${questionEstimatedSolvingTime}. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
             text("output: ")
         }
         geminiResponse = geminiGenerativeModel.generateContent(geminiContent)
@@ -265,7 +281,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
 
     companion object {
         @JvmStatic
-        fun newInstance(question: Question) =
+        fun newInstance(question: Question, questionList: ArrayList<Question>) =
             SolveQuestionFragment().apply {
                 arguments = Bundle().apply {
                     putString(KEY_QUESTION_LESSON, question.lesson.name)
@@ -274,6 +290,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
                     putString(KEY_QUESTION_LEVEL, levelToString(question.level))
                     putString(KEY_QUESTION_SOLVING_TIME, question.estimatedSolvingTime)
                     putString(KEY_QUESTION_CORRECT_ANSWER, question.correctAnswer)
+                    putParcelableArrayList(KEY_QUESTION_LIST, questionList)
                 }
             }
     }
@@ -325,7 +342,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
             }
         } else {
             geminiResponse = null
-            ToastUtil.showToast(sendTimeToGeminiContext, "Lütfen bir cevap seçiniz.")
+            ToastUtil.showToast(solveQuestionContext, getString(R.string.please_select_answer))
         }
     }
 
@@ -338,16 +355,49 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
                 R.anim.fade_out,
                 R.anim.fade_in,
                 R.anim.slide_out_left
-            )
-            .replace(
+            ).replace(
                 R.id.lesson_container_fragment,
                 geminiResponseFragment,
                 GeminiResponseFragment::class.java.name
-            )
-            .commit()
+            ).commit()
     }
 
     private fun changeQuestion() {
-        //todo() change question
+        val questionListWithoutCurrentQuestion =
+            questionList.filter { it.image != questionImage }
+
+        if (questionListWithoutCurrentQuestion.isNotEmpty()) {
+            countDownTimerUtil.destroyTimer()
+            optionsRG.clearCheck()
+            val changedQuestion = questionListWithoutCurrentQuestion.random()
+            val changeQuestionDialog = ChangeQuestionAlertDialog(solveQuestionContext)
+            changeQuestionDialog.window?.setBackgroundDrawableResource(R.drawable.alert_dialog_rounded_corners)
+            changeQuestionDialog.show()
+            changeQuestionDialog.apply {
+                setCancelable(false)
+                setLevel(levelToString(changedQuestion.level))
+                setEstimatedTime(changedQuestion.estimatedSolvingTime)
+                setChangeQuestionButtonListener {
+                    questionImage = changedQuestion.image
+                    questionLevel = levelToString(changedQuestion.level)
+                    questionEstimatedSolvingTime = changedQuestion.estimatedSolvingTime
+                    questionCorrectAnswer = changedQuestion.correctAnswer
+                    clockTime = (questionEstimatedSolvingTime.toInt() * 1000).toLong()
+                    progressTime = (clockTime / 1000).toFloat()
+                    setupUseful()
+                    setupCountDownTimer()
+                    setQuestionImage()
+                    countDownTimerUtil.startTimer()
+                    changeQuestionDialog.dismiss()
+                }
+            }
+        } else {
+            ToastUtil.showErrorDialogQuestionNotFound(
+                solveQuestionContext,
+                parentFragmentManager,
+                SolveQuestionFragment::class.java.name,
+                getString(R.string.no_another_question)
+            )
+        }
     }
 }

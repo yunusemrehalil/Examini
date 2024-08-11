@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.databinding.FragmentLoginBinding
 import com.nomaddeveloper.examini.ui.activity.HomePageActivity
 import com.nomaddeveloper.examini.ui.activity.LoginActivity
@@ -92,7 +93,10 @@ class LoginFragment : BaseFragment(), View.OnClickListener {
                 loginButton.id -> if (checkUsernameAndPassword()) {
                     openHomePageActivity()
                 } else {
-                    ToastUtil.showToast(loginContext, "Check username and password.")
+                    ToastUtil.showToast(
+                        loginContext,
+                        getString(R.string.error_check_username_password)
+                    )
                 }
             }
         }

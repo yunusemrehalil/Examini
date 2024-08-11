@@ -1,6 +1,10 @@
 package com.nomaddeveloper.examini.model.question
 
-enum class QuestionLevel {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class QuestionLevel : Parcelable {
     VERY_EASY,
     EASY,
     MEDIUM,

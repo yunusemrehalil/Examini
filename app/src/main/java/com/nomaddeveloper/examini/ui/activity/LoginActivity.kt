@@ -18,7 +18,6 @@ import androidx.credentials.exceptions.GetCredentialUnknownException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.google.android.material.button.MaterialButton
 import com.nomaddeveloper.examini.BuildConfig
 import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.databinding.ActivityLoginBinding
@@ -36,7 +35,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginButtonLl: LinearLayout
-    private lateinit var signupButton: MaterialButton
+    ///private lateinit var signupButton: MaterialButton
     private lateinit var credentialManager: CredentialManager
     private lateinit var coroutineScope: CoroutineScope
     private lateinit var biometricManager: LoginBiometricManager
@@ -91,14 +90,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun setupUI() {
         binding.apply {
-            signupButton = mbSignup
+            //signupButton = mbSignup
             loginButtonLl = llLoginButton
         }
     }
 
     private fun initListeners() {
         loginButtonLl.setOnClickListener(this)
-        signupButton.setOnClickListener(this)
+        //signupButton.setOnClickListener(this)
     }
 
     private fun openLoginFragment() {
@@ -167,11 +166,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun handleFailure(e: GetCredentialException) {
         hideLoading()
         val errorMessage = when (e) {
-            is GetCredentialUnknownException -> "Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin."
-            is GetCredentialCancellationException -> "Giriş iptal edildi. Lütfen tekrar deneyin."
-            is GetCredentialInterruptedException -> "Giriş işlemi kesintiye uğradı. Lütfen tekrar deneyin."
-            else -> e.errorMessage?.toString()
-                ?: "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin."
+            is GetCredentialUnknownException -> getString(R.string.unknown_error)
+            is GetCredentialCancellationException -> getString(R.string.login_cancelled)
+            is GetCredentialInterruptedException -> getString(R.string.login_interrupted)
+            else -> e.errorMessage?.toString() ?: getString(R.string.unexpected_error)
         }
         showErrorMessage(errorMessage)
     }
@@ -187,15 +185,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                         PreferencesUtil.setGoogleProfile(this@LoginActivity, googleProfile!!)
                         openHomePageActivity()
                     } catch (e: GoogleIdTokenParsingException) {
-                        showErrorMessage("Geçersiz giriş yanıtı. Lütfen tekrar deneyin.")
+                        showErrorMessage(getString(R.string.invalid_sign_in_response))
                     }
                 } else {
-                    showErrorMessage("Giriş hatası. Lütfen Google hesabınızı kullanın.")
+                    showErrorMessage(getString(R.string.sign_in_error))
                 }
             }
 
             else -> {
-                showErrorMessage("Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.")
+                showErrorMessage(getString(R.string.unexpected_error))
             }
         }
     }
@@ -227,21 +225,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     googleSignIn()
                 }
 
-                signupButton.id -> {
+                /*signupButton.id -> {
                     openSignUpFragment()
-                }
+                }*/
             }
         }
     }
 
     fun showButtons() {
         loginButtonLl.visibility = View.VISIBLE
-        signupButton.visibility = View.VISIBLE
+        //signupButton.visibility = View.VISIBLE
     }
 
     private fun hideButtons() {
         loginButtonLl.visibility = View.GONE
-        signupButton.visibility = View.GONE
+        //signupButton.visibility = View.GONE
     }
 
     private fun startBiometricAuthentication() {

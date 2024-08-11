@@ -22,8 +22,8 @@ class ToastUtil {
             val dialogMessage = dialogView.findViewById<TextView>(R.id.error_dialog_message)
             val dialogButton = dialogView.findViewById<MaterialButton>(R.id.error_dialog_ok_button)
 
-            dialogTitle.text = "Profiliniz bulunamadı..."
-            dialogMessage.text = "Çıkış yapılıyor. Devam etmek için butona basınız."
+            dialogTitle.text = context.getString(R.string.profile_not_found)
+            dialogMessage.text = context.getString(R.string.logging_out_message)
 
             val builder = AlertDialog.Builder(context)
             builder.setView(dialogView)
@@ -48,7 +48,7 @@ class ToastUtil {
             val dialogMessage = dialogView.findViewById<TextView>(R.id.error_dialog_message)
             val dialogButton = dialogView.findViewById<MaterialButton>(R.id.error_dialog_ok_button)
 
-            dialogTitle.text = "Hata!"
+            dialogTitle.text = context.getString(R.string.error)
             dialogMessage.text = dialogMessageText
 
             val builder = AlertDialog.Builder(context)
@@ -83,7 +83,7 @@ class ToastUtil {
             val dialogMessage = dialogView.findViewById<TextView>(R.id.error_dialog_message)
             val dialogButton = dialogView.findViewById<MaterialButton>(R.id.error_dialog_ok_button)
 
-            dialogTitle.text = "Hata!"
+            dialogTitle.text = context.getString(R.string.error)
             dialogMessage.text = dialogMessageText
 
             val builder = AlertDialog.Builder(context)

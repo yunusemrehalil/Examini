@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_button_colored"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Send My Answer"
+                android:text="@string/send_my_answer"
                 android:textColor="@color/White"
                 android:textSize="18sp"
                 app:backgroundTint="@null"

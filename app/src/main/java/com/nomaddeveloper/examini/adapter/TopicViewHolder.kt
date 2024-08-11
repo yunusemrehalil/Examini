@@ -12,6 +12,7 @@ import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.database.RealmCRUD
 import com.nomaddeveloper.examini.model.topic.LessonTopic
 import com.nomaddeveloper.examini.ui.fragment.PrepareToQuestionFragment
+import com.nomaddeveloper.examini.util.Constant.EMPTY_STRING
 
 class TopicViewHolder(itemView: View) : ViewHolder(itemView) {
     private val topicNameTV: TextView = itemView.findViewById(R.id.tv_topic_name)
@@ -33,7 +34,8 @@ class TopicViewHolder(itemView: View) : ViewHolder(itemView) {
         googleId: String,
     ) {
         topicNameTV.text = topic.topic
-        topicFrequencyTV.text = "Son 3 senede ortalama ${topic.frequency} soru"
+        topicFrequencyTV.text =
+            itemView.context.getString(R.string.average_question_frequency, topic.frequency)
         layoutAllTopic.setOnClickListener {
             val prepareToQuestionFragment =
                 PrepareToQuestionFragment.newInstance(topic.lesson, topic.topic)
@@ -68,7 +70,7 @@ class TopicViewHolder(itemView: View) : ViewHolder(itemView) {
             if (index < points.size) {
                 textView.text = points[index].value.toString()
             } else {
-                textView.text = ""
+                textView.text = EMPTY_STRING
             }
         }
 
@@ -85,27 +87,27 @@ class TopicViewHolder(itemView: View) : ViewHolder(itemView) {
         return when {
             average >= 4.5 -> {
                 // Pale green
-                Color.rgb(144, 238, 144) // Light green
+                Color.rgb(144, 238, 144)
             }
 
             average >= 3.5 -> {
                 // Pale yellow
-                Color.rgb(255, 255, 224) // Light yellow
+                Color.rgb(255, 255, 224)
             }
 
             average >= 2.5 -> {
                 // Pale orange
-                Color.rgb(255, 228, 196) // Light orange
+                Color.rgb(255, 228, 196)
             }
 
             average >= 1.5 -> {
                 // Pale red
-                Color.rgb(255, 182, 193) // Light pink
+                Color.rgb(255, 182, 193)
             }
 
             else -> {
                 // Very pale red
-                Color.rgb(255, 105, 97) // Coral
+                Color.rgb(255, 105, 97)
             }
         }
     }

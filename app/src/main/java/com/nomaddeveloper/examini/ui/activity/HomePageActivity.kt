@@ -111,7 +111,8 @@ class HomePageActivity : BaseActivity(), View.OnClickListener, ExamRecyclerViewO
             howManyDaysLeftLPI = lpiHowManyDays
             examRecyclerView = rvExams
         }
-        welcomeTV.text = "Hoşgeldin ${googleProfile?.givenName ?: "..."}!"
+        val givenName = googleProfile?.givenName ?: "..."
+        welcomeTV.text = getString(R.string.welcome_message, givenName)
         setHowManyDaysLeftProgressIndicator()
         examRecyclerAdapter =
             ExamRecyclerViewAdapter(Constant.EXAM_LIST, examRecyclerViewOmClickListener)
@@ -128,8 +129,13 @@ class HomePageActivity : BaseActivity(), View.OnClickListener, ExamRecyclerViewO
         val daysLeftInMillis = examDate2025.timeInMillis - currentDate.timeInMillis
         val daysLeft = TimeUnit.MILLISECONDS.toDays(daysLeftInMillis).toInt()
         val progress = (currentDif.toFloat() / diffDate * 100)
-        howManyDaysLeftTV.text =
-            if (daysLeft > 0) "YKS'ye ${daysLeft} gün kaldı." else "YKS'ye 0 gün kaldı."
+        val daysLeftMessage = if (daysLeft > 0) {
+            resources.getQuantityString(R.plurals.days_left, daysLeft, daysLeft)
+        } else {
+            getString(R.string.days_left_zero)
+        }
+
+        howManyDaysLeftTV.text = daysLeftMessage
         howManyDaysLeftLPI.progress = progress.toInt()
     }
 
@@ -199,12 +205,15 @@ class HomePageActivity : BaseActivity(), View.OnClickListener, ExamRecyclerViewO
         when (exam) {
             Enums.Exam.TYT -> openTYTBottomSheetDialog()
             Enums.Exam.AYT -> openAYTBottomSheetDialog()
-            Enums.Exam.UNKNOWN -> ToastUtil.showToast(this, "Bilinmeyen bir sınav seçtiniz.")
+            Enums.Exam.UNKNOWN -> ToastUtil.showToast(
+                this,
+                getString(R.string.unknown_exam_selected)
+            )
         }
     }
 
     override fun onExamLongClick(exam: Enums.Exam): Boolean {
-        ToastUtil.showToast(this, "Uzun tıklama özelliği henüz aktif değil.")
+        ToastUtil.showToast(this, getString(R.string.long_click_feature_not_active))
         return true
     }
 
@@ -213,7 +222,7 @@ class HomePageActivity : BaseActivity(), View.OnClickListener, ExamRecyclerViewO
     }
 
     override fun onLessonLongClick(exam: Enums.Exam, lesson: Enums.Lesson): Boolean {
-        ToastUtil.showToast(this, "Uzun tıklama özelliği henüz aktif değil.")
+        ToastUtil.showToast(this, getString(R.string.long_click_feature_not_active))
         return true
     }
 }

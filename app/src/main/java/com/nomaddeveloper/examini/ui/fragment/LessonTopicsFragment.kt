@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.adapter.TopicRecyclerViewAdapter
 import com.nomaddeveloper.examini.databinding.FragmentLessonTopicsBinding
 import com.nomaddeveloper.examini.listener.GetTopicsListener
@@ -72,7 +73,7 @@ class LessonTopicsFragment : BaseFragment(), GetTopicsListener {
             }
     }
 
-    override fun onGetTopicsSuccess(topicsList: List<LessonTopic>) {
+    override fun onGetTopicsSuccess(topicsList: ArrayList<LessonTopic>) {
         hideLoading()
         allTopics = topicsList
         if (allTopics.isNotEmpty()) {
@@ -90,7 +91,7 @@ class LessonTopicsFragment : BaseFragment(), GetTopicsListener {
                 lessonTopicContext,
                 parentFragmentManager,
                 LessonTopicsFragment::class.java.name,
-                "Bu ders hakkında konu bulunamadı."
+                getString(R.string.no_topic_found_for_lesson)
             )
         }
     }
@@ -102,7 +103,7 @@ class LessonTopicsFragment : BaseFragment(), GetTopicsListener {
             lessonTopicContext,
             parentFragmentManager,
             LessonTopicsFragment::class.java.name,
-            "Konuları alırken bir hata oluştu."
+            getString(R.string.error_while_retrieving_topics)
         )
     }
 }

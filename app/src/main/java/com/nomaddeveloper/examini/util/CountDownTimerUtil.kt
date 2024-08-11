@@ -3,8 +3,8 @@ package com.nomaddeveloper.examini.util
 import android.os.CountDownTimer
 
 class CountDownTimerUtil(
-    millisInFuture: Long,
-    countDownInterval: Long
+    private val millisInFuture: Long,
+    private val countDownInterval: Long
 ) {
     private val millisUntilFinished = millisInFuture
     private var timer = InternalTimer(this, millisInFuture, countDownInterval)
@@ -36,5 +36,23 @@ class CountDownTimerUtil(
 
     fun destroyTimer() {
         timer.cancel()
+    }
+
+    fun pauseTimer() {
+        timer.cancel()
+        isRunning = false
+    }
+
+    fun resumeTimer() {
+        if (!isRunning && timer.millisUntilFinished > 0) {
+            timer = InternalTimer(this, timer.millisUntilFinished, countDownInterval)
+            startTimer()
+        }
+    }
+
+    fun restartTimer() {
+        timer.cancel()
+        timer = InternalTimer(this, millisInFuture, countDownInterval)
+        startTimer()
     }
 }

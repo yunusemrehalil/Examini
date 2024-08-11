@@ -1,6 +1,10 @@
 package com.nomaddeveloper.examini.model.question
 
-enum class Lesson {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class Lesson : Parcelable {
     TURKISH,
     MATH,
     SOCIAL_SCIENCE,

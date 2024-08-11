@@ -26,8 +26,8 @@ class Connection {
     }
 
     fun getAllStudents(getStudentsListener: GetStudentsListener) {
-        examiniAPI.getStudents().enqueue(object : Callback<List<Student>> {
-            override fun onResponse(call: Call<List<Student>>, response: Response<List<Student>>) {
+        examiniAPI.getStudents().enqueue(object : Callback<ArrayList<Student>> {
+            override fun onResponse(call: Call<ArrayList<Student>>, response: Response<ArrayList<Student>>) {
                 if (response.isSuccessful && response.body() != null) {
                     getStudentsListener.onGetStudentsSuccess(response.body()!!)
                 } else {
@@ -35,17 +35,17 @@ class Connection {
                 }
             }
 
-            override fun onFailure(call: Call<List<Student>>, throwable: Throwable) {
+            override fun onFailure(call: Call<ArrayList<Student>>, throwable: Throwable) {
                 getStudentsListener.onGetStudentsFailure(throwable)
             }
         })
     }
 
     fun getAllTopics(getTopicsListener: GetTopicsListener, lesson: String, exam: String) {
-        examiniAPI.getTopics(lesson, exam).enqueue(object : Callback<List<LessonTopic>> {
+        examiniAPI.getTopics(lesson, exam).enqueue(object : Callback<ArrayList<LessonTopic>> {
             override fun onResponse(
-                call: Call<List<LessonTopic>>,
-                response: Response<List<LessonTopic>>
+                call: Call<ArrayList<LessonTopic>>,
+                response: Response<ArrayList<LessonTopic>>
             ) {
                 if (response.isSuccessful && response.body() != null) {
                     getTopicsListener.onGetTopicsSuccess(response.body()!!)
@@ -54,7 +54,7 @@ class Connection {
                 }
             }
 
-            override fun onFailure(call: Call<List<LessonTopic>>, throwable: Throwable) {
+            override fun onFailure(call: Call<ArrayList<LessonTopic>>, throwable: Throwable) {
                 getTopicsListener.onGetTopicsFailure(throwable)
             }
         })
@@ -66,10 +66,10 @@ class Connection {
         topic: String
     ) {
         examiniAPI.getQuestionsByLessonAndTopic(lesson, topic)
-            .enqueue(object : Callback<List<Question>> {
+            .enqueue(object : Callback<ArrayList<Question>> {
                 override fun onResponse(
-                    call: Call<List<Question>>,
-                    response: Response<List<Question>>
+                    call: Call<ArrayList<Question>>,
+                    response: Response<ArrayList<Question>>
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         getQuestionsListener.onGetQuestionsSuccess(response.body()!!)
@@ -78,7 +78,7 @@ class Connection {
                     }
                 }
 
-                override fun onFailure(call: Call<List<Question>>, throwable: Throwable) {
+                override fun onFailure(call: Call<ArrayList<Question>>, throwable: Throwable) {
                     getQuestionsListener.onGetQuestionsFailure(throwable)
                 }
 

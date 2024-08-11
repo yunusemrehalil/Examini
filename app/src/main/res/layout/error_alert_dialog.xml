@@ -31,5 +31,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="8dp"
-        android:text="OK" />
+        android:text="@string/ok" />
 </LinearLayout>

@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Question level"
+                        android:text="@string/question_level"
                         android:textColor="@color/Blue900"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_prepare_question_level_value"
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Estimated solving time"
+                        android:text="@string/estimated_solving_time"
                         android:textColor="@color/Blue900"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_prepare_question_time_value"
@@ -162,7 +162,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Average of last 6 points"
+                        android:text="@string/average_of_last_6_points"
                         android:textColor="@color/Blue900"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@id/tv_prepare_question_average_value"
@@ -204,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
-                        android:text="Before you start"
+                        android:text="@string/before_you_start"
                         android:textColor="@color/Black"
                         android:textSize="24sp" />
 
@@ -214,13 +214,13 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="2dp"
                         android:background="@drawable/background_text_view_gray_colored"
-                        android:drawableStart="@drawable/icon_dot_circle_24"
                         android:drawablePadding="6dp"
                         android:fontFamily="@font/poppins_light"
                         android:paddingVertical="2dp"
                         android:paddingStart="4dp"
                         android:paddingEnd="8dp"
-                        android:text="You must complete this question." />
+                        android:text="@string/you_must_complete_this_question"
+                        app:drawableStartCompat="@drawable/icon_dot_circle_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -228,13 +228,13 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_text_view_gray_colored"
-                        android:drawableStart="@drawable/icon_dot_circle_24"
                         android:drawablePadding="6dp"
                         android:fontFamily="@font/poppins_light"
                         android:paddingVertical="2dp"
                         android:paddingStart="4dp"
                         android:paddingEnd="8dp"
-                        android:text="If you can solve the question, the AI ​​tool will evaluate your result. If you cannot solve it, you will get 0 points directly." />
+                        android:text="@string/ai_evaluation_info"
+                        app:drawableStartCompat="@drawable/icon_dot_circle_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -242,13 +242,13 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/background_text_view_gray_colored"
-                        android:drawableStart="@drawable/icon_dot_circle_24"
                         android:drawablePadding="6dp"
                         android:fontFamily="@font/poppins_light"
                         android:paddingVertical="2dp"
                         android:paddingStart="4dp"
                         android:paddingEnd="8dp"
-                        android:text="This question may be a question you have solved before. In this case, do not forget to change the question for a correct evaluation!" />
+                        android:text="@string/question_repeat_warning"
+                        app:drawableStartCompat="@drawable/icon_dot_circle_24" />
 
                 </LinearLayout>
 
@@ -260,7 +260,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_button_colored"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Start To Solve"
+                android:text="@string/start_to_solve"
                 android:textColor="@color/White"
                 android:textSize="18sp"
                 app:backgroundTint="@null"

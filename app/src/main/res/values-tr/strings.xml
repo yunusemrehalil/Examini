@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_message">Hoşgeldin %1$s!</string>
+    <plurals name="days_left">
+        <item quantity="one">Sınava %1$d gün kaldı.</item>
+        <item quantity="other">Sınava %1$d gün kaldı.</item>
+    </plurals>
+    <string name="days_left_zero">Sınava 0 gün kaldı.</string>
+    <string name="unknown_exam_selected">Bilinmeyen bir sınav seçtiniz.</string>
+    <string name="long_click_feature_not_active">Uzun tıklama özelliği henüz aktif değil.</string>
+    <!-- Google -->
+    <string name="unknown_error">Bilinmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin.</string>
+    <string name="login_cancelled">Giriş iptal edildi. Lütfen tekrar deneyin.</string>
+    <string name="login_interrupted">Giriş işlemi kesintiye uğradı. Lütfen tekrar deneyin.</string>
+    <string name="unexpected_error">Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="invalid_sign_in_response">Geçersiz giriş yanıtı. Lütfen tekrar deneyin.</string>
+    <string name="sign_in_error">Giriş hatası. Lütfen Google hesabınızı kullanın.</string>
+    <!-- -->
+    <string name="error_parent_activity">Üst aktivite bir BaseActivity olmalıdır.</string>
+    <string name="no_topic_found_for_lesson">Bu ders hakkında konu bulunamadı.</string>
+    <string name="no_questions_found_for_topic">Bu konu hakkında soru bulunamadı.</string>
+    <string name="error_while_retrieving_topics">Konuları alırken bir hata oluştu.</string>
+    <string name="error_while_retrieving_questions">Soruları alırken bir hata oluştu.</string>
+    <string name="error_check_username_password">Kullanıcı adı ve şifreyi kontrol edin.</string>
+    <string name="no_another_question">Başka bir soru bulunmamaktadır.</string>
+    <string name="please_select_answer">Lütfen bir cevap seçiniz.</string>
+    <plurals name="seconds_left">
+        <item quantity="one">%1$d saniye</item>
+        <item quantity="other">%1$d saniye</item>
+    </plurals>
+    <string name="error_loading_question">Soruyu yüklerken hata oluştu.</string>
+    <string name="sign_in_with_google">Google ile giriş yap</string>
+    <string name="question_level">Zorluk seviyesi</string>
+    <string name="next_question_prompt">Sonraki sorunuza ait bilgiler:</string>
+    <string name="estimated_solving_time">Tahmini çözüm süresi</string>
+    <string name="change_button">Değiştir</string>
+    <string name="ok">Tamam</string>
+    <string name="result">Sonuç</string>
+    <string name="back_to_home_button">Anasayfaya Dön</string>
+    <string name="login">Giriş Yap</string>
+    <string name="username">Kullanıcı Adı</string>
+    <string name="password">Şifre</string>
+    <string name="preparing">Hazırlanıyor</string>
+    <string name="send_my_answer">Cevabımı Gönder</string>
+    <string name="last_6_points">Son 6 puanın</string>
+    <string name="average_of_last_6_points">Son 6 puanının ortalaması</string>
+    <string name="before_you_start">Başlamadan önce</string>
+    <string name="you_must_complete_this_question">Bu soruyu tamamlamanız gerekir.</string>
+    <string name="ai_evaluation_info">Soruyu çözebilirseniz, AI aracı sonucunuzu değerlendirecek. Çözemediğinizde ise doğrudan 0 puan alacaksınız.</string>
+    <string name="question_repeat_warning">Bu soru daha önce çözdüğünüz bir soru olabilir. Bu durumda, doğru bir değerlendirme için soruyu değiştirmeyi unutmayın!</string>
+    <string name="start_to_solve">Çözmeye Başla</string>
+    <string name="profile_not_found">Profiliniz bulunamadı</string>
+    <string name="logging_out_message">Çıkış yapılıyor. Devam etmek için butona basınız.</string>
+    <string name="error">Hata</string>
+    <string name="average_question_frequency">Son 3 senede ortalama %1$d soru</string>
+
+
+</resources>
