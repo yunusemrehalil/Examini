@@ -5,7 +5,7 @@ import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 
-class UniversityApp : Application(), ActivityLifecycleCallbacks {
+class ExaminiApp : Application(), ActivityLifecycleCallbacks {
     override fun onCreate() {
         super.onCreate()
         registerActivityLifecycleCallbacks(this)

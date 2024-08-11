@@ -54,5 +54,14 @@
     <string name="error">Hata</string>
     <string name="average_question_frequency">Son 3 senede ortalama %1$d soru</string>
 
+    <!-- Biometric -->
+    <string name="biometric_status_unknown">Biyometrik durumu bilinmiyor.</string>
+    <string name="biometric_error_no_hardware">Biyometrik donanım tespit edilmedi.</string>
+    <string name="biometric_error_hw_unavailable">Biyometrik donanım kullanılamıyor.</string>
+    <string name="biometric_error_none_enrolled">Biyometrik kimlik bilgileri kaydedilmemiş.</string>
+    <string name="biometric_error_generic">Biyometrik kimlik doğrulama kullanılamıyor.</string>
+    <string name="biometric_validate_session">Oturumunuzu doğrulayın.</string>
+    <string name="no_security_verification">Telefonunuzda güvenlik doğrulaması yok, Google ile giriş yapın.</string>
+    <!-- -->
 
 </resources>

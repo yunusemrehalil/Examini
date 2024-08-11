@@ -54,5 +54,14 @@
     <string name="error">Error</string>
     <string name="average_question_frequency">Average of %1$d questions in the last 3 years</string>
 
+    <!-- Biometric -->
+    <string name="biometric_status_unknown">Biometric status unknown.</string>
+    <string name="biometric_error_no_hardware">No biometric hardware detected.</string>
+    <string name="biometric_error_hw_unavailable">Biometric hardware is unavailable.</string>
+    <string name="biometric_error_none_enrolled">No biometric credentials enrolled.</string>
+    <string name="biometric_error_generic">Biometric authentication is not available.</string>
+    <string name="biometric_validate_session">Validate your session.</string>
+    <string name="no_security_verification">No security verification on your phone, sign in with Google.</string>
+    <!-- -->
 
 </resources>

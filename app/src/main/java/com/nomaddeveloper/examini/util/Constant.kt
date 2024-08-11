@@ -33,6 +33,7 @@ object Constant {
     const val OPTION_C = "C"
     const val OPTION_D = "D"
     const val OPTION_E = "E"
+    const val SECONDS = "seconds"
     const val EMPTY_STRING = ""
     const val REGEX_PATTERN_WITH_POINT = """(\d+ puan|Puan: \d+|Değerlendirme: \d+/)"""
     const val REGEX_PATTERN_FOR_EXTRACT_POINT = """(\d+)(?=[^\d]*\d*/?\d*)"""

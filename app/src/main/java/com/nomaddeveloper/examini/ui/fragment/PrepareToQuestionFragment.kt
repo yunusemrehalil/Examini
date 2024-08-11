@@ -15,6 +15,7 @@ import com.nomaddeveloper.examini.util.Constant
 import com.nomaddeveloper.examini.util.Constant.DECIMAL_2_CHAR
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_LESSON
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_TOPIC
+import com.nomaddeveloper.examini.util.Constant.SECONDS
 import com.nomaddeveloper.examini.util.StringUtil.Companion.levelToString
 import com.nomaddeveloper.examini.util.ToastUtil.Companion.showErrorDialogQuestionNotFound
 import java.util.Locale
@@ -91,7 +92,8 @@ class PrepareToQuestionFragment : BaseFragment(), GetQuestionsListener, View.OnC
             lessonNameTV.text = currentLesson
             topicNameTV.text = currentTopic
             levelValueTV.text = levelToString(randomQuestion.level)
-            solvingTimeValueTV.text = randomQuestion.estimatedSolvingTime
+            val estimatedSolvingTimeText = "${randomQuestion.estimatedSolvingTime} $SECONDS"
+            solvingTimeValueTV.text = estimatedSolvingTimeText
             average6PointsValueTV.text = getAverageOfLast6Points().toString()
         } else {
             showErrorDialogQuestionNotFound(

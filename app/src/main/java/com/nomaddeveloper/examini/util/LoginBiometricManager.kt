@@ -5,6 +5,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.nomaddeveloper.examini.R
 import java.util.concurrent.Executor
 
 class LoginBiometricManager(val context: Context, val biometricCallback: BiometricCallback) {
@@ -17,27 +18,27 @@ class LoginBiometricManager(val context: Context, val biometricCallback: Biometr
         return when (biometricManager.canAuthenticate(allowedAuthenticators)) {
             BiometricManager.BIOMETRIC_SUCCESS -> true
             BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
-                biometricCallback.onAuthenticationError("Biyometrik durumu bilinmiyor.")
+                biometricCallback.onAuthenticationError(context.getString(R.string.biometric_status_unknown))
                 false
             }
 
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                biometricCallback.onAuthenticationError("Biyometrik donanım tespit edilmedi.")
+                biometricCallback.onAuthenticationError(context.getString(R.string.biometric_error_no_hardware))
                 false
             }
 
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                biometricCallback.onAuthenticationError("Biyometrik donanım kullanılamıyor.")
+                biometricCallback.onAuthenticationError(context.getString(R.string.biometric_error_hw_unavailable))
                 false
             }
 
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                biometricCallback.onAuthenticationError("Biyometrik kimlik bilgileri kaydedilmemiş.")
+                biometricCallback.onAuthenticationError(context.getString(R.string.biometric_error_none_enrolled))
                 false
             }
 
             else -> {
-                biometricCallback.onAuthenticationError("Biyometrik kimlik doğrulama kullanılamıyor.")
+                biometricCallback.onAuthenticationError(context.getString(R.string.biometric_error_generic))
                 false
             }
         }
@@ -67,7 +68,7 @@ class LoginBiometricManager(val context: Context, val biometricCallback: Biometr
 
     private fun createPromptInfo(): BiometricPrompt.PromptInfo {
         return BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Oturumunuzu doğrulayın.")
+            .setTitle(context.getString(R.string.biometric_validate_session))
             .setAllowedAuthenticators(allowedAuthenticators)
             .build()
     }
@@ -80,7 +81,7 @@ class LoginBiometricManager(val context: Context, val biometricCallback: Biometr
         } else {
             ToastUtil.showToast(
                 context,
-                "Telefonunuzda güvenlik doğrulaması yok, Google ile giriş yapın."
+                context.getString(R.string.no_security_verification)
             )
             return
         }

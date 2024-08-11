@@ -22,12 +22,15 @@ class Connection {
     private lateinit var examiniAPI: ExaminiAPI
 
     init {
-        createUniversityAPI()
+        createExaminiAPI()
     }
 
     fun getAllStudents(getStudentsListener: GetStudentsListener) {
         examiniAPI.getStudents().enqueue(object : Callback<ArrayList<Student>> {
-            override fun onResponse(call: Call<ArrayList<Student>>, response: Response<ArrayList<Student>>) {
+            override fun onResponse(
+                call: Call<ArrayList<Student>>,
+                response: Response<ArrayList<Student>>
+            ) {
                 if (response.isSuccessful && response.body() != null) {
                     getStudentsListener.onGetStudentsSuccess(response.body()!!)
                 } else {
@@ -85,7 +88,7 @@ class Connection {
             })
     }
 
-    private fun createUniversityAPI() {
+    private fun createExaminiAPI() {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 

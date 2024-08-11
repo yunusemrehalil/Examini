@@ -41,6 +41,7 @@ import com.nomaddeveloper.examini.util.Constant.OPTION_C
 import com.nomaddeveloper.examini.util.Constant.OPTION_D
 import com.nomaddeveloper.examini.util.Constant.OPTION_E
 import com.nomaddeveloper.examini.util.Constant.REGEX_PATTERN_FOR_REMOVE_ASTERISKS
+import com.nomaddeveloper.examini.util.Constant.SECONDS
 import com.nomaddeveloper.examini.util.CountDownTimerUtil
 import com.nomaddeveloper.examini.util.StringUtil.Companion.levelToString
 import com.nomaddeveloper.examini.util.ToastUtil
@@ -206,74 +207,108 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun extractPointFromResponse(response: String): Float? {
-        val cleanedResponse = response
-            .replace(Regex(REGEX_PATTERN_FOR_REMOVE_ASTERISKS), "")
-            .trim()
-
-        val keywordIndex = cleanedResponse.indexOf("puan alabilirsiniz")
+        val cleanedResponse = response.replace(Regex(REGEX_PATTERN_FOR_REMOVE_ASTERISKS), "").trim()
+        val keywordIndex = cleanedResponse.indexOf("point out of 5.").takeIf { it != -1 }
+            ?: cleanedResponse.indexOf("points out of 5.")
         if (keywordIndex == -1) return null
         val beforeKeyword = cleanedResponse.substring(0, keywordIndex).trim()
         val numberString = beforeKeyword.split(" ").lastOrNull()?.trim()
         return numberString?.toFloatOrNull()
     }
 
+
     private suspend fun generateGeminiContent() {
         showLoading()
         countDownTimerUtil.destroyTimer()
-        //val question = randomTestQuestionIV.drawable.let { (it as BitmapDrawable).bitmap }
         val time: Int =
             (questionEstimatedSolvingTime.toInt() - secondsLeft)
         val myAnswer = selectedAnswer
-        val prompt =
-            "Bu soru için benim cevabım $myAnswer ve doğru cevap ${questionCorrectAnswer}. Ben, cevabımı $time saniyede buldum. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme."
-        /*if (time < 120) {
-            "Bu soru için benim cevabım ${myAnswer} ve doğru cevap ${correctAnswer}. Ben, cevabımı ${time} saniyede buldum. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme."
-        } else {
-            //TODO() eğer süre fazlaysa gemini'den öneri isteyebiliriz.
-            //"Bu soru için benim cevabım ${myAnswer} ve doğru cevap ${correctAnswer}. Ben, cevabımı ${time} saniyede buldum. Bu tarz soruları çözmek için bana bir kaç öneride bulunabilir misin? Lütfen soruyu çözme."
-        }*/
         geminiContent = content {
-            text("input: Bu soru için benim cevabım A şıkkı ve bu sorunun doğru cevabı B şıkkı. Ben, cevabımı 25 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 60 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Cevabınızın doğru olmaması puanınızı etkiler, ancak çözüm süreniz 25 saniye ile tahmini süreden (60 saniye) oldukça iyi. Bu, problem çözme hızınızın iyi olduğunu gösteriyor. Bu yüzden 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım B şıkkı ve bu sorunun doğru cevabı B şıkkı. Ben, cevabımı 60 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 60 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve çözüm süreniz de tahmini süreyle uyumlu. Bu durumda, hem doğru cevabı bulmanız hem de belirtilen süre içinde yapmanız nedeniyle yüksek bir puan alırsınız. Bu yüzden 0 ile 5 puan arasında 5 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı A şıkkı. Ben, cevabımı 30 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 120 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamamış olsanız da, cevabınızı 30 saniyede bulmanız tahmini süreden (120 saniye) oldukça hızlı. Hızınız iyi olmakla birlikte, doğru cevabı bulamadığınız için puanınız biraz düşük olacaktır. Bu nedenle, 0 ile 5 puan arasında 2 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı C şıkkı. Ben, cevabımı 160 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 80 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız, ancak çözüm süreniz tahmini sürenin (80 saniye) iki katından fazla. Doğru cevabı bulmanız olumlu, ancak hızınızı geliştirmeniz gerekiyor. Bu yüzden, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı C şıkkı. Ben, cevabımı 160 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 120 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve çözüm süreniz tahmini süreden (120 saniye) biraz daha uzun olsa da, yine de makul bir sürede tamamladınız. Hem doğru cevabı bulmanız hem de çözüm sürenizin biraz uzun olması göz önüne alındığında, 0 ile 5 puan arasında 4 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım E şıkkı ve bu sorunun doğru cevabı C şıkkı. Ben, cevabımı 160 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 120 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak çözüm süreniz tahmini süreden (120 saniye) biraz uzun. Yanıtınızın yanlış olması puanınızı etkiler, ancak hızınız ortalamanın üzerinde. Bu nedenle, 0 ile 5 puan arasında 2 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım E şıkkı ve bu sorunun doğru cevabı D şıkkı. Ben, cevabımı 100 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 120 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız ama cevabınızı 100 saniyede bulmanız tahmini süreden (120 saniye) daha hızlı. Yanıtınız yanlış olsa da hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım E şıkkı ve bu sorunun doğru cevabı E şıkkı. Ben, cevabımı 100 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 120 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (120 saniye) daha hızlı (100 saniye) buldunuz. Hem doğru cevabı bulmanız hem de hızınız oldukça iyi. Bu nedenle, 0 ile 5 puan arasında 5 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım A şıkkı ve bu sorunun doğru cevabı E şıkkı. Ben, cevabımı 60 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 80saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak cevabınızı 60 saniyede bulmanız tahmini süreden (80 saniye) daha hızlı. Yanıtınız yanlış olsa da hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım A şıkkı ve bu sorunun doğru cevabı A şıkkı. Ben, cevabımı 60 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 80 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (80 saniye) daha hızlı (60 saniye) buldunuz. Hem doğru cevabı bulmanız hem de hızlı çözümünüz oldukça iyi. Bu nedenle, 0 ile 5 puan arasında 5 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım B şıkkı ve bu sorunun doğru cevabı D şıkkı. Ben, cevabımı 90 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 100 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak cevabınızı tahmini süreden (100 saniye) daha hızlı (90 saniye) buldunuz. Yanıtınız yanlış olsa da hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı C şıkkı. Ben, cevabımı 150 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 120 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (120 saniye) biraz daha uzun sürede (150 saniye) buldunuz. Doğru cevabı bulmanız olumlu, ancak hızınızı geliştirmeniz gerekiyor. Bu nedenle, 0 ile 5 puan arasında 4 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım D şıkkı ve bu sorunun doğru cevabı B şıkkı. Ben, cevabımı 70 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 90 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak cevabınızı tahmini süreden (90 saniye) daha hızlı (70 saniye) buldunuz. Yanıtınız yanlış olsa da hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım E şıkkı ve bu sorunun doğru cevabı E şıkkı. Ben, cevabımı 120 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 100 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız, ancak cevabınızı tahmini süreden (100 saniye) daha uzun sürede (120 saniye) buldunuz. Doğru cevabı bulmanız olumlu, ancak hızınız biraz düşük. Bu nedenle, 0 ile 5 puan arasında 4 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım B şıkkı ve bu sorunun doğru cevabı A şıkkı. Ben, cevabımı 80 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 70 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak cevabınızı tahmini süreden (70 saniye) biraz daha uzun sürede (80 saniye) buldunuz. Yanıtınız yanlış olsa da hızınız makul. Bu nedenle, 0 ile 5 puan arasında 2 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı D şıkkı. Ben, cevabımı 110 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 100 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak cevabınızı tahmini süreden (100 saniye) biraz daha uzun sürede (110 saniye) buldunuz. Yanıtınız yanlış olsa da hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım A şıkkı ve bu sorunun doğru cevabı B şıkkı. Ben, cevabımı 40 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 60 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız, ancak cevabınızı tahmini süreden (60 saniye) daha hızlı (40 saniye) buldunuz. Yanıtınız yanlış olsa da hızınız çok iyi. Bu nedenle, 0 ile 5 puan arasında 3 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım E şıkkı ve bu sorunun doğru cevabı D şıkkı. Ben, cevabımı 200 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 150 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Doğru cevabı bulamadınız ve cevabınızı tahmini süreden (150 saniye) daha uzun sürede (200 saniye) buldunuz. Hem yanıtınız yanlış hem de hızınız düşük. Bu nedenle, 0 ile 5 puan arasında 2 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım D şıkkı ve bu sorunun doğru cevabı D şıkkı. Ben, cevabımı 50 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 90 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (90 saniye) daha hızlı (50 saniye) buldunuz. Hem doğru cevabı bulmanız hem de hızınız mükemmel. Bu nedenle, 0 ile 5 puan arasında 5 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım C şıkkı ve bu sorunun doğru cevabı C şıkkı. Ben, cevabımı 130 saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi 140 saniye. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
-            text("output: Soruyu doğru cevapladınız ve cevabınızı tahmini süreden (140 saniye) biraz daha hızlı (130 saniye) buldunuz. Hem doğru cevabı bulmanız hem de hızınız iyi. Bu nedenle, 0 ile 5 puan arasında 4 puan alabilirsiniz.")
-            text("input: Bu soru için benim cevabım $myAnswer şıkkı ve doğru cevap $questionCorrectAnswer şıkkı. Ben, cevabımı $time saniyede buldum ve bu sorunun, uzmanlar tarafından hesaplanmış tahmini çözüm süresi ${questionEstimatedSolvingTime}. Bu sene üniversite sınavına gireceğim. Beni 0 ile 5 puan arasında değerlendirebilir misin? Lütfen soruyu çözme.")
+            text("input: For this question, I answered option A, and the correct answer is option B. I found my answer in 25 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Although your response time is impressive, accuracy is critical. Since your answer is incorrect, your score will be low. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option A. I found my answer in 30 seconds, and the expert-estimated solution time is 120 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Despite your quick response, the incorrect answer significantly impacts your score. You can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option D, and the correct answer is option B. I found my answer in 50 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your timing is close to the estimate, but the incorrect answer means a low score. Therefore, you can receive 0 points out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option A. I found my answer in 45 seconds, and the expert-estimated solution time is 90 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is good, but accuracy is key. Since the answer is wrong, your score will reflect that. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option B, and the correct answer is option C. I found my answer in 80 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: You took longer than the estimated time and provided an incorrect answer. This will result in a very low score. Therefore, you can receive 0 points out of 5.")
+
+            text("input: For this question, I answered option E, and the correct answer is option D. I found my answer in 40 seconds, and the expert-estimated solution time is 70 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: While your answer time is decent, the incorrect answer significantly reduces your score. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option B, and the correct answer is option A. I found my answer in 65 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your answer time exceeds the estimated duration, and the answer is incorrect. As a result, you can receive 0 points out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option B. I found my answer in 55 seconds, and the expert-estimated solution time is 90 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is reasonable, but the incorrect answer significantly lowers your score. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option A, and the correct answer is option C. I found my answer in 75 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: You took longer than the estimated time, and your answer is incorrect. This leads to a low score. Therefore, you can receive 0 points out of 5.")
+
+            text("input: For this question, I answered option D, and the correct answer is option A. I found my answer in 30 seconds, and the expert-estimated solution time is 80 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Despite your quick response, the incorrect answer lowers your score significantly. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option E. I found my answer in 100 seconds, and the expert-estimated solution time is 90 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time was slightly longer than the estimate, and your answer is incorrect. This results in a low score. Therefore, you can receive 0 points out of 5.")
+
+            text("input: For this question, I answered option A, and the correct answer is option B. I found my answer in 20 seconds, and the expert-estimated solution time is 50 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Although you responded quickly, the incorrect answer impacts your score negatively. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option D, and the correct answer is option C. I found my answer in 60 seconds, and the expert-estimated solution time is 90 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is within the expected range, but the incorrect answer results in a low score. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option E, and the correct answer is option A. I found my answer in 35 seconds, and the expert-estimated solution time is 70 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: While your timing is decent, the incorrect answer lowers your score. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option B, and the correct answer is option D. I found my answer in 50 seconds, and the expert-estimated solution time is 50 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your timing is on point, but the incorrect answer leads to a low score. Therefore, you can receive 1 point out of 5.")
+
+            text("input:  For this question, I answered option A, and the correct answer is option D. I found my answer in 45 seconds, and the expert-estimated solution time is 75 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is within a reasonable range, but the incorrect answer significantly impacts your score. Therefore, you can receive 1 point out of 5.")
+
+            text("input:  For this question, I answered option B, and the correct answer is option E. I found my answer in 70 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: You exceeded the estimated time and provided an incorrect answer, resulting in a low score. Therefore, you can receive 0 points out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option A. I found my answer in 60 seconds, and the expert-estimated solution time is 100 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question")
+            text("output: Your response time is efficient, but the incorrect answer lowers your score. Therefore, you can receive 1 point out of 5.")
+
+            text("input: For this question, I answered option D, and the correct answer is option D. I found my answer in 65 seconds, and the expert-estimated solution time is 50 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: While you exceeded the estimated time, you provided the correct answer. This shows good understanding. You can receive 3 points out of 5.")
+
+            text("input: For this question, I answered option A, and the correct answer is option A. I found my answer in 30 seconds, and the expert-estimated solution time is 65 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is impressive, and you answered correctly. This indicates excellent problem-solving skills. You can receive 5 points out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option C. I found my answer in 55 seconds, and the expert-estimated solution time is 80 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is within a reasonable range, and you answered correctly. This shows good understanding. You can receive 3 points out of 5.")
+
+            text("input: For this question, I answered option B, and the correct answer is option B. I found my answer in 40 seconds, and the expert-estimated solution time is 75 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is efficient, and you answered correctly. This demonstrates strong problem-solving skills. You can receive 4 points out of 5.")
+
+            text("input: For this question, I answered option D, and the correct answer is option D. I found my answer in 70 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: While you took slightly longer than the estimated time, you provided the correct answer. This shows good understanding. You can receive 3 points out of 5.")
+
+            text("input: For this question, I answered option A, and the correct answer is option A. I found my answer in 25 seconds, and the expert-estimated solution time is 50 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is impressive, and you answered correctly. This indicates excellent problem-solving skills. You can receive 5 points out of 5.")
+
+            text("input: For this question, I answered option C, and the correct answer is option C. I found my answer in 60 seconds, and the expert-estimated solution time is 90 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is efficient, and you answered correctly. This demonstrates good problem-solving skills. You can receive 4 points out of 5.")
+
+            text("input: For this question, I answered option B, and the correct answer is option B. I found my answer in 50 seconds, and the expert-estimated solution time is 45 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: While your response time is slightly above the estimate, you answered correctly. This indicates solid understanding. You can receive 3 points out of 5.")
+
+            text("input: For this question, I answered option D, and the correct answer is option D. I found my answer in 45 seconds, and the expert-estimated solution time is 75 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is within a reasonable range, and you provided the correct answer. This demonstrates good problem-solving skills. You can receive 4 points out of 5.")
+
+            text("input: For this question, I answered option A, and the correct answer is option A. I found my answer in 35 seconds, and the expert-estimated solution time is 60 seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
+            text("output: Your response time is efficient, and providing the correct answer is impressive. Given your performance, you can receive 4 points out of 5.")
+
+            text("input: For this question, I answered option $myAnswer, and the correct answer is option $questionCorrectAnswer. I found my answer in $time seconds, and the expert-estimated solution time is $questionEstimatedSolvingTime seconds. I will be taking the university entrance exam this year. Could you rate me between 0 and 5 points? Please don't solve the question.")
             text("output: ")
         }
         geminiResponse = geminiGenerativeModel.generateContent(geminiContent)
@@ -376,7 +411,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
             changeQuestionDialog.apply {
                 setCancelable(false)
                 setLevel(levelToString(changedQuestion.level))
-                setEstimatedTime(changedQuestion.estimatedSolvingTime)
+                setEstimatedTime("${changedQuestion.estimatedSolvingTime} $SECONDS")
                 setChangeQuestionButtonListener {
                     questionImage = changedQuestion.image
                     questionLevel = levelToString(changedQuestion.level)
