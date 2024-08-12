@@ -8,6 +8,7 @@ import com.nomaddeveloper.examini.listener.GetTopicsListener
 import com.nomaddeveloper.examini.model.question.Question
 import com.nomaddeveloper.examini.model.student.Student
 import com.nomaddeveloper.examini.model.topic.LessonTopic
+import com.nomaddeveloper.examini.util.Enums
 import com.nomaddeveloper.examini.util.LocalDateTimeAdapter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -68,7 +69,7 @@ class Connection {
         lesson: String,
         topic: String
     ) {
-        examiniAPI.getQuestionsByLessonAndTopic(lesson, topic)
+        examiniAPI.getQuestionsByLessonAndTopic(lesson, topic, Enums.Language.EN.name)
             .enqueue(object : Callback<ArrayList<Question>> {
                 override fun onResponse(
                     call: Call<ArrayList<Question>>,

@@ -9,8 +9,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.nomaddeveloper.examini.dev" />
-                  <option name="mobileSdkAppId" value="1:396725680907:android:feda388782e816a213800e" />
+                  <option name="appId" value="com.nomaddeveloper.examini" />
+                  <option name="mobileSdkAppId" value="1:396725680907:android:293ffbfc3b119a0613800e" />
                   <option name="projectId" value="examini-38d90" />
                   <option name="projectNumber" value="396725680907" />
                 </ConnectionSetting>

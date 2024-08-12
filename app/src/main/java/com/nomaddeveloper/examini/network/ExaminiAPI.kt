@@ -18,7 +18,9 @@ interface ExaminiAPI {
 
     @GET("{lesson}/questions/topic")
     fun getQuestionsByLessonAndTopic(
-        @Path("lesson") lesson: String, @Query("topic") topic: String
+        @Path("lesson") lesson: String,
+        @Query("topic") topic: String,
+        @Query("lang") language: String
     ): Call<ArrayList<Question>>
 
     @GET("topics")

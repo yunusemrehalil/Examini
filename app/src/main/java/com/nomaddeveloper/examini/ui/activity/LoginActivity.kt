@@ -25,6 +25,7 @@ import com.nomaddeveloper.examini.model.profile.GoogleProfile
 import com.nomaddeveloper.examini.ui.fragment.LoginFragment
 import com.nomaddeveloper.examini.ui.fragment.SignupFragment
 import com.nomaddeveloper.examini.util.Constant.ONE_HOUR_IN_MILLIS
+import com.nomaddeveloper.examini.util.Constant.SKIP_LOGIN
 import com.nomaddeveloper.examini.util.LoginBiometricManager
 import com.nomaddeveloper.examini.util.PreferencesUtil
 import com.nomaddeveloper.examini.util.ToastUtil
@@ -35,6 +36,7 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity(), View.OnClickListener {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginButtonLl: LinearLayout
+
     ///private lateinit var signupButton: MaterialButton
     private lateinit var credentialManager: CredentialManager
     private lateinit var coroutineScope: CoroutineScope
@@ -51,12 +53,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        if (googleProfile != null) {
-            if (System.currentTimeMillis() - lastActivityTime > ONE_HOUR_IN_MILLIS) {
-                showLoading()
-                startBiometricAuthentication()
-            } else {
-                openHomePageActivity()
+        if (SKIP_LOGIN) {
+            openHomePageActivity()
+        } else {
+            if (googleProfile != null) {
+                if (System.currentTimeMillis() - lastActivityTime > ONE_HOUR_IN_MILLIS) {
+                    showLoading()
+                    startBiometricAuthentication()
+                } else {
+                    openHomePageActivity()
+                }
             }
         }
     }
@@ -141,7 +147,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun googleSignIn() {
         showLoading()
         val googleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false)
+            .setFilterByAuthorizedAccounts(true)
             .setAutoSelectEnabled(false)
             .setServerClientId(BuildConfig.WEB_CLIENT_ID)
             .build()
@@ -204,6 +210,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun openHomePageActivity() {
+        if (SKIP_LOGIN) {
+            setMockGoogleProfile()
+            PreferencesUtil.setGoogleProfile(this@LoginActivity, googleProfile!!)
+        }
         hideLoading()
         PreferencesUtil.setLastActivityTime(this@LoginActivity)
         val intent = Intent(this@LoginActivity, HomePageActivity::class.java).apply {
@@ -256,5 +266,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             phoneNumber = googleIdTokenCredential.phoneNumber,
             profilePictureUri = googleIdTokenCredential.profilePictureUri.toString()
         )
+    }
+
+    private fun setMockGoogleProfile() {
+        googleProfile = GoogleProfile(
+            displayName = "Sindirella Terligi",
+            familyName = "Terligi",
+            givenName = "Sindirella",
+            id = "1234567890",
+            idToken = "eyJhbGciOiJIzg5Md0vZlF1b3ZkQkK8t8",
+            phoneNumber = "+1234567890",
+            profilePictureUri = ""
+        )
+        PreferencesUtil.setGoogleProfile(this@LoginActivity, googleProfile!!)
     }
 }

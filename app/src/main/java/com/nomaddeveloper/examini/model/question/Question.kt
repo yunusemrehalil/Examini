@@ -1,6 +1,7 @@
 package com.nomaddeveloper.examini.model.question
 
 import android.os.Parcelable
+import com.nomaddeveloper.examini.util.Enums
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -11,5 +12,6 @@ data class Question(
     var image: String,
     var level: QuestionLevel,
     var estimatedSolvingTime: String,
-    var correctAnswer: String
-):Parcelable
+    var correctAnswer: String,
+    var language: Enums.Language
+) : Parcelable

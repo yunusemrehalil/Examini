@@ -35,9 +35,6 @@ object Constant {
     const val OPTION_E = "E"
     const val SECONDS = "seconds"
     const val EMPTY_STRING = ""
-    const val REGEX_PATTERN_WITH_POINT = """(\d+ puan|Puan: \d+|Değerlendirme: \d+/)"""
-    const val REGEX_PATTERN_FOR_EXTRACT_POINT = """(\d+)(?=[^\d]*\d*/?\d*)"""
-    const val REGEX_PATTERN_FOR_TUNED_MODEL = """\*+\s*(\d+)\s*puan\s+alabilirsiniz\s*\*+"""
     const val REGEX_PATTERN_FOR_REMOVE_ASTERISKS = """\*"""
     val EXAM_DATE_2024: Calendar = Calendar.getInstance().apply {
         set(2024, Calendar.JUNE, 9)
@@ -47,7 +44,7 @@ object Constant {
     }
 
     const val SKIP_LOGIN = BuildConfig.SKIP_LOGIN
-    val EXAM_LIST = arrayListOf(Enums.Exam.AYT, Enums.Exam.TYT)
+    val EXAM_LIST = arrayListOf(Enums.Exam.SAT, Enums.Exam.ACT)
     const val ONE_HOUR_IN_MILLIS = 60 * 60 * 1000
 
     object LessonNameMap {

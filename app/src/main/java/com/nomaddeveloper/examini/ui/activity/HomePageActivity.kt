@@ -205,11 +205,41 @@ class HomePageActivity : BaseActivity(), View.OnClickListener, ExamRecyclerViewO
         when (exam) {
             Enums.Exam.TYT -> openTYTBottomSheetDialog()
             Enums.Exam.AYT -> openAYTBottomSheetDialog()
+            Enums.Exam.ACT -> openACTBottomSheetDialog()
+            Enums.Exam.SAT -> openSATBottomSheetDialog()
             Enums.Exam.UNKNOWN -> ToastUtil.showToast(
                 this,
                 getString(R.string.unknown_exam_selected)
             )
         }
+    }
+
+    private fun openACTBottomSheetDialog() {
+        val dialog =
+            BottomSheetDialog(this, R.style.ChooseTopicBottomSheetDialog)
+        val view = layoutInflater.inflate(R.layout.tyt_bottom_sheet_dialog, null)
+        lessonRecyclerView = view.findViewById(R.id.rv_bottom_sheet_dialog_topics)
+        val lessonList =
+            arrayListOf(
+                Enums.Lesson.ENGLISH,
+                Enums.Lesson.MATH,
+                Enums.Lesson.READING,
+                Enums.Lesson.SCIENCE
+            )
+        lessonRecyclerAdapter =
+            LessonBottomSheetRecyclerViewAdapter(Enums.Exam.ACT, lessonList, this)
+        lessonRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        lessonRecyclerView.adapter = lessonRecyclerAdapter
+        dialog.apply {
+            setCancelable(true)
+            setContentView(view)
+            show()
+        }
+    }
+
+    private fun openSATBottomSheetDialog() {
+        ToastUtil.showToast(this, getString(R.string.preparing))
+        //todo()
     }
 
     override fun onExamLongClick(exam: Enums.Exam): Boolean {

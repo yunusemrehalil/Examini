@@ -26,6 +26,8 @@ class StringUtil {
             return when (exam) {
                 Enums.Exam.TYT.name -> Enums.Exam.TYT
                 Enums.Exam.AYT.name -> Enums.Exam.AYT
+                Enums.Exam.ACT.name -> Enums.Exam.ACT
+                Enums.Exam.SAT.name -> Enums.Exam.SAT
                 else -> Enums.Exam.UNKNOWN
             }
         }

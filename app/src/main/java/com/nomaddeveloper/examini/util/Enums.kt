@@ -3,6 +3,9 @@ package com.nomaddeveloper.examini.util
 object Enums {
     enum class Lesson {
         TURKISH,
+        ENGLISH,
+        READING,
+        SCIENCE,
         MATH,
         GEOMETRY,
         PHYSICS,
@@ -17,6 +20,10 @@ object Enums {
     }
 
     enum class Exam {
-        TYT, AYT, UNKNOWN
+        TYT, AYT, ACT, SAT, UNKNOWN
+    }
+
+    enum class Language {
+        TR, EN, UNKNOWN
     }
 }

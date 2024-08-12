@@ -6,7 +6,6 @@ import com.google.android.material.button.MaterialButton
 import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.listener.LessonRecyclerViewOnClickListener
 import com.nomaddeveloper.examini.util.Enums
-import com.nomaddeveloper.examini.util.StringUtil.Companion.getTurkishName
 
 class BottomSheetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mbLessonButton: MaterialButton = itemView.findViewById(R.id.mb_lesson_button)
@@ -22,6 +21,7 @@ class BottomSheetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         mbLessonButton.setOnLongClickListener {
             lessonRecyclerViewOnClickListener.onLessonLongClick(exam, lesson)
         }
-        mbLessonButton.text = getTurkishName(lesson)
+        mbLessonButton.text = lesson.name
+        //mbLessonButton.text = getTurkishName(lesson)
     }
 }
