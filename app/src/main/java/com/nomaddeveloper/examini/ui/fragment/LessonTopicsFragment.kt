@@ -85,6 +85,8 @@ class LessonTopicsFragment : BaseFragment(), GetTopicsListener {
                     realmCRUD,
                     googleProfile.id!!
                 )
+            topicRecyclerViewAdapter.setHasStableIds(true)
+            topicRecyclerView.setHasFixedSize(true)
             topicRecyclerView.adapter = topicRecyclerViewAdapter
         } else {
             showErrorDialogTopicNotFound(
