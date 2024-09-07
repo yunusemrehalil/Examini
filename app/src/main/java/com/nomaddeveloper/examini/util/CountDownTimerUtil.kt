@@ -1,8 +1,9 @@
 package com.nomaddeveloper.examini.util
 
 import android.os.CountDownTimer
+import javax.inject.Inject
 
-class CountDownTimerUtil(
+class CountDownTimerUtil @Inject constructor(
     private val millisInFuture: Long,
     private val countDownInterval: Long
 ) {
