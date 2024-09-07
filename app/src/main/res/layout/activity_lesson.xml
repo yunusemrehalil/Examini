@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Indigo50"
-    tools:context=".ui.activity.LessonActivity">
+    tools:context=".ui.lesson.LessonActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

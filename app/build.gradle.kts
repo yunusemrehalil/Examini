@@ -5,6 +5,7 @@ plugins {
     id("io.realm.kotlin")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -134,6 +135,10 @@ dependencies {
     implementation(libs.androidx.biometric)
     //Gson
     implementation(libs.gson)
+    //Hilt
+    implementation(libs.hilt.android)
+    implementation (libs.androidx.hilt.navigation.fragment)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.lifecycle.livedata.ktx)

@@ -4,7 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class ExaminiApp : Application(), ActivityLifecycleCallbacks {
     override fun onCreate() {
         super.onCreate()

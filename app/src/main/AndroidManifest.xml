@@ -15,13 +15,13 @@
         android:theme="@style/Theme.Examini"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.LessonActivity"
+            android:name=".ui.lesson.LessonActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.HomePageActivity"
+            android:name=".ui.homepage.HomePageActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:alpha="0.9"
     android:background="@color/Gray900"
-    tools:context=".ui.activity.LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_bottom"

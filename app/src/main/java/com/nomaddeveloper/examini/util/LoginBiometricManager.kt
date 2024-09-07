@@ -8,7 +8,11 @@ import androidx.fragment.app.FragmentActivity
 import com.nomaddeveloper.examini.R
 import java.util.concurrent.Executor
 
-class LoginBiometricManager(val context: Context, val biometricCallback: BiometricCallback) {
+class LoginBiometricManager(
+    val context: Context,
+    val biometricCallback: BiometricCallback,
+    val toastUtil: ToastUtil
+) {
     private val executor: Executor = ContextCompat.getMainExecutor(context)
     private val biometricManager = BiometricManager.from(context)
     private val allowedAuthenticators: Int =
@@ -79,7 +83,7 @@ class LoginBiometricManager(val context: Context, val biometricCallback: Biometr
             val promptInfo = createPromptInfo()
             biometricPrompt.authenticate(promptInfo)
         } else {
-            ToastUtil.showToast(
+            toastUtil.showToast(
                 context,
                 context.getString(R.string.no_security_verification)
             )
