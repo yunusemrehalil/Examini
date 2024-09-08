@@ -2,7 +2,7 @@ package com.nomaddeveloper.examini.di
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.nomaddeveloper.examini.util.CountDownTimerUtil
+import com.nomaddeveloper.examini.util.CountDownTimerUtilFactory
 import com.nomaddeveloper.examini.util.PreferencesUtil
 import com.nomaddeveloper.examini.util.StringUtil
 import com.nomaddeveloper.examini.util.ToastUtil
@@ -39,7 +39,7 @@ object UtilModule {
 
     @Provides
     @Singleton
-    fun provideCountdownTimerUtil(): CountDownTimerUtil {
-        return CountDownTimerUtil(0L, 1000L)
+    fun provideCountDownTimerUtilFactory(): CountDownTimerUtilFactory {
+        return CountDownTimerUtilFactory()
     }
 }

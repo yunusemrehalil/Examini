@@ -3,20 +3,25 @@ package com.nomaddeveloper.examini.ui.question.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.nomaddeveloper.examini.ui.base.BaseViewModel
 import com.nomaddeveloper.examini.util.CountDownTimerUtil
+import com.nomaddeveloper.examini.util.CountDownTimerUtilFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class TimerViewModel @Inject constructor(private val countDownTimerUtil: CountDownTimerUtil) :
+class TimerViewModel @Inject constructor(private val countDownTimerUtilFactory: CountDownTimerUtilFactory) :
     BaseViewModel() {
     val timerLiveData = MutableLiveData<Long>()
     val timerFinishedLiveData = MutableLiveData<Boolean>()
 
+    private lateinit var countDownTimerUtil: CountDownTimerUtil
+
     init {
-        setupTimer()
+        setupTimer(0L, 1000L)
     }
 
-    private fun setupTimer() {
+    fun setupTimer(millisInFuture: Long, countDownInterval: Long) {
+        countDownTimerUtil = countDownTimerUtilFactory.create(millisInFuture, countDownInterval)
+
         countDownTimerUtil.onTick = { millisUntilFinished ->
             timerLiveData.postValue(millisUntilFinished)
         }

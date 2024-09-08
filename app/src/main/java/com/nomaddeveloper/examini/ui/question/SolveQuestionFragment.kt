@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.nomaddeveloper.examini.R
 import com.nomaddeveloper.examini.data.model.question.Question
+import com.nomaddeveloper.examini.data.model.question.QuestionLevel
 import com.nomaddeveloper.examini.databinding.FragmentSolveQuestionBinding
 import com.nomaddeveloper.examini.ui.base.BaseFragment
 import com.nomaddeveloper.examini.ui.question.viewmodel.TimerViewModel
@@ -27,7 +28,6 @@ import com.nomaddeveloper.examini.util.ChangeQuestionAlertDialog
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_CORRECT_ANSWER
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_IMAGE
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_LESSON
-import com.nomaddeveloper.examini.util.Constant.DEFAULT_LEVEL
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_SOLVING_TIME
 import com.nomaddeveloper.examini.util.Constant.DEFAULT_TOPIC
 import com.nomaddeveloper.examini.util.Constant.KEY_QUESTION_CORRECT_ANSWER
@@ -44,12 +44,10 @@ import com.nomaddeveloper.examini.util.Constant.OPTION_D
 import com.nomaddeveloper.examini.util.Constant.OPTION_E
 import com.nomaddeveloper.examini.util.Constant.REGEX_PATTERN_FOR_REMOVE_ASTERISKS
 import com.nomaddeveloper.examini.util.Constant.SECONDS
-import com.nomaddeveloper.examini.util.CountDownTimerUtil
 import com.nomaddeveloper.examini.util.GlideErrorListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
@@ -77,8 +75,6 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
     private var clockTime: Long = 0
     private var progressTime: Float = 0f
 
-    @Inject
-    lateinit var countDownTimerUtil: CountDownTimerUtil
     private val timerViewModel: TimerViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,7 +111,13 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
             questionLesson = it.getString(KEY_QUESTION_LESSON, DEFAULT_LESSON)
             questionTopic = it.getString(KEY_QUESTION_TOPIC, DEFAULT_TOPIC)
             questionImage = it.getString(KEY_QUESTION_IMAGE, DEFAULT_IMAGE)
-            questionLevel = it.getString(KEY_QUESTION_LEVEL, DEFAULT_LEVEL)
+            val level: QuestionLevel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                it.getParcelable(KEY_QUESTION_LEVEL, QuestionLevel::class.java)
+                    ?: QuestionLevel.DEFAULT
+            } else {
+                it.getParcelable(KEY_QUESTION_LEVEL) ?: QuestionLevel.DEFAULT
+            }
+            questionLevel = stringUtil.levelToString(level)
             questionCorrectAnswer =
                 it.getString(KEY_QUESTION_CORRECT_ANSWER, DEFAULT_CORRECT_ANSWER)
             questionEstimatedSolvingTime =
@@ -155,6 +157,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
 
     private fun setupUseful() {
         solveQuestionContext = requireContext()
+        timerViewModel.setupTimer(clockTime, 1000L)
         glideErrorListener = GlideErrorListener(
             this@SolveQuestionFragment,
             parentFragmentManager,
@@ -340,7 +343,7 @@ class SolveQuestionFragment : BaseFragment(), View.OnClickListener {
                     putString(KEY_QUESTION_LESSON, question.lesson.name)
                     putString(KEY_QUESTION_TOPIC, question.topic)
                     putString(KEY_QUESTION_IMAGE, question.image)
-                    putString(KEY_QUESTION_LEVEL, stringUtil.levelToString(question.level))
+                    putParcelable(KEY_QUESTION_LEVEL, question.level)
                     putString(KEY_QUESTION_SOLVING_TIME, question.estimatedSolvingTime)
                     putString(KEY_QUESTION_CORRECT_ANSWER, question.correctAnswer)
                     putParcelableArrayList(KEY_QUESTION_LIST, questionList)

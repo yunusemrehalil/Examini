@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class QuestionLevel : Parcelable {
+    DEFAULT,
     VERY_EASY,
     EASY,
     MEDIUM,

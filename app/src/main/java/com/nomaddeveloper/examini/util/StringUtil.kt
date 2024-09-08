@@ -45,6 +45,7 @@ class StringUtil @Inject constructor() {
             QuestionLevel.MEDIUM -> "Medium"
             QuestionLevel.HARD -> "Hard"
             QuestionLevel.VERY_HARD -> "Very Hard"
+            QuestionLevel.DEFAULT -> "Unknown"
         }
     }
 }
